@@ -4,53 +4,785 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Samuel Yang | Portfolio</title>
+
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 900px;
-      margin: auto;
-      padding: 40px;
+    :root{
+      --bg: #0b1220;
+      --card:#0f1a2e;
+      --text:#e7eefc;
+      --muted:#a7b6d8;
+      --accent:#7c5cff;
+      --accent2:#22d3ee;
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --radius: 18px;
+      --max: 980px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 20% -10%, rgba(124,92,255,.35), transparent 55%),
+                  radial-gradient(1200px 800px at 90% 10%, rgba(34,211,238,.25), transparent 50%),
+                  linear-gradient(180deg, var(--bg), #070b14 70%);
+      color: var(--text);
       line-height: 1.6;
     }
-    h1, h2 {
-      color: #222;
+
+    a{ color: inherit; text-decoration: none; }
+    a:focus{ outline: 2px solid rgba(124,92,255,.55); outline-offset: 3px; border-radius: 10px; }
+
+    /* layout */
+    .wrap{ max-width: var(--max); margin: 0 auto; padding: 24px; }
+    .nav{
+      position: sticky; top: 0;
+      backdrop-filter: blur(12px);
+      background: rgba(7,11,20,.55);
+      border-bottom: 1px solid rgba(231,238,252,.08);
+      z-index: 20;
     }
-    .project {
-      margin-bottom: 24px;
+    .nav-inner{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 14px 24px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 16px;
     }
-    a {
-      color: #0366d6;
-      text-decoration: none;
+    .brand{
+      display:flex; align-items:center; gap: 10px;
+      font-weight: 800;
+      letter-spacing: .2px;
+    }
+    .dot{
+      width: 10px; height: 10px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 0 4px rgba(124,92,255,.15);
+    }
+    .nav-links{
+      display:flex; gap: 14px; flex-wrap: wrap;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .nav-links a{
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      transition: all .2s ease;
+    }
+    .nav-links a:hover{
+      color: var(--text);
+      border-color: rgba(231,238,252,.12);
+      background: rgba(231,238,252,.04);
+    }
+
+    /* hero */
+    .hero{
+      padding: 46px 0 18px;
+      display:grid;
+      grid-template-columns: 1.35fr .85fr;
+      gap: 22px;
+      align-items: start;
+    }
+    @media (max-width: 900px){
+      .hero{ grid-template-columns: 1fr; }
+    }
+
+    .hero-card{
+      border: 1px solid rgba(231,238,252,.12);
+      background: linear-gradient(180deg, rgba(15,26,46,.85), rgba(15,26,46,.55));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 26px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-card::before{
+      content:"";
+      position:absolute; inset: -2px;
+      background: radial-gradient(600px 200px at 20% 0%, rgba(124,92,255,.25), transparent 60%),
+                  radial-gradient(500px 200px at 85% 15%, rgba(34,211,238,.18), transparent 55%);
+      pointer-events:none;
+    }
+    .hero-card > * { position: relative; }
+
+    .kicker{
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      margin: 0 0 10px;
+    }
+    h1{
+      margin: 0 0 10px;
+      font-size: 44px;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+    }
+    @media (max-width: 520px){
+      h1{ font-size: 36px; }
+    }
+    .subtitle{
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 62ch;
+    }
+
+    .pill-row{
+      display:flex; flex-wrap: wrap; gap: 10px;
+      margin: 18px 0 8px;
+    }
+    .pill{
+      font-size: 13px;
+      font-weight: 800;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(231,238,252,.14);
+      background: rgba(231,238,252,.04);
+      color: rgba(231,238,252,.92);
+    }
+
+    .cta-row{
+      display:flex; flex-wrap: wrap; gap: 10px;
+      margin-top: 18px;
+    }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap: 10px;
+      padding: 11px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(231,238,252,.14);
+      background: rgba(231,238,252,.04);
+      color: var(--text);
+      font-weight: 900;
+      font-size: 14px;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      cursor: pointer;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(231,238,252,.06); border-color: rgba(231,238,252,.22); }
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(124,92,255,.95), rgba(34,211,238,.9));
+      border-color: transparent;
+      color: #07101f;
+      box-shadow: 0 10px 30px rgba(124,92,255,.28);
+    }
+
+    /* side card */
+    .side{ display:grid; gap: 14px; }
+    .mini{
+      border: 1px solid rgba(231,238,252,.12);
+      background: rgba(15,26,46,.55);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: 0 14px 40px rgba(0,0,0,.25);
+    }
+    .mini h3{
+      margin: 0 0 8px;
+      font-size: 14px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(231,238,252,.82);
+    }
+    .mini p{ margin: 0; color: var(--muted); font-size: 14px; }
+    .mini .rows{ margin-top: 10px; display:grid; gap: 8px; }
+    .row{
+      display:flex; align-items:center; justify-content: space-between; gap: 12px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(231,238,252,.10);
+      background: rgba(231,238,252,.03);
+      color: rgba(231,238,252,.92);
+      font-weight: 800;
+      font-size: 14px;
+    }
+    .row span{ color: var(--muted); font-weight: 800; font-size: 13px; }
+
+    /* sections */
+    section{ padding: 26px 0; }
+    .section-title{
+      display:flex; align-items:end; justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .section-title h2{ margin: 0; font-size: 20px; letter-spacing: -0.01em; }
+    .section-title p{ margin: 0; color: var(--muted); font-size: 14px; }
+
+    /* filters */
+    .filters{
+      display:flex; gap:10px; flex-wrap: wrap;
+      margin: 10px 0 16px;
+    }
+    .filter{
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(231,238,252,.14);
+      background: rgba(231,238,252,.03);
+      color: rgba(231,238,252,.86);
+      font-weight: 900;
+      font-size: 13px;
+      transition: all .15s ease;
+    }
+    .filter:hover{ border-color: rgba(231,238,252,.24); background: rgba(231,238,252,.05); }
+    .filter.active{
+      background: linear-gradient(135deg, rgba(124,92,255,.95), rgba(34,211,238,.9));
+      border-color: transparent;
+      color: #07101f;
+    }
+
+    /* grid/cards */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    @media (max-width: 820px){ .grid{ grid-template-columns: 1fr; } }
+
+    .card{
+      border: 1px solid rgba(231,238,252,.12);
+      background: rgba(15,26,46,.55);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: 0 14px 42px rgba(0,0,0,.20);
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover{
+      transform: translateY(-2px);
+      border-color: rgba(231,238,252,.22);
+      background: rgba(15,26,46,.70);
+    }
+    .card::before{
+      content:"";
+      position:absolute; inset: -2px;
+      background: radial-gradient(420px 140px at 15% 0%, rgba(124,92,255,.18), transparent 60%),
+                  radial-gradient(420px 140px at 90% 10%, rgba(34,211,238,.12), transparent 60%);
+      opacity: 0;
+      transition: opacity .2s ease;
+      pointer-events:none;
+    }
+    .card:hover::before{ opacity: 1; }
+    .card > * { position: relative; }
+    .card.clickable{ cursor: pointer; }
+    .card.clickable:active{ transform: translateY(0px); }
+
+    /* thumbnail: designed space, good for portrait screenshots */
+    .thumb{
+      width: 100%;
+      height: 220px;
+      border-radius: 14px;
+      border: 1px solid rgba(231,238,252,.12);
+      overflow: hidden;
+      margin-bottom: 12px;
+      position: relative;
+
+      background: radial-gradient(600px 200px at 20% 0%, rgba(124,92,255,.18), transparent 60%),
+                  radial-gradient(500px 200px at 85% 20%, rgba(34,211,238,.12), transparent 55%),
+                  rgba(231,238,252,.03);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 12px;
+    }
+    .thumb img{
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display:block;
+      border-radius: 10px;
+    }
+
+    /* Phone frame for vertical screenshots */
+    .thumb.phone{
+      padding: 16px;
+    }
+    .thumb.phone::after{
+      content:"";
+      position:absolute;
+      inset: 10px;
+      border-radius: 18px;
+      border: 1px solid rgba(231,238,252,.10);
+      pointer-events:none;
+    }
+    .thumb.phone img{
+      width: auto;
+      max-width: 70%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 14px;
+    }
+
+    .card-top{
+      display:flex; align-items:flex-start; justify-content: space-between; gap: 12px;
+      margin-bottom: 10px;
+    }
+    .card h3{ margin: 0; font-size: 16px; letter-spacing: -0.01em; }
+    .badge{
+      font-size: 12px;
+      font-weight: 900;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(231,238,252,.12);
+      color: rgba(231,238,252,.85);
+      background: rgba(231,238,252,.04);
+      white-space: nowrap;
+    }
+    .card p{ margin: 0 0 12px; color: var(--muted); font-size: 14px; }
+
+    .meta{ display:flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 14px; }
+    .chip{
+      font-size: 12px;
+      font-weight: 900;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(231,238,252,.10);
+      background: rgba(231,238,252,.03);
+      color: rgba(231,238,252,.82);
+    }
+
+    .card-actions{ display:flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+    .muted{ color: var(--muted); }
+
+    /* Featured block */
+    .featured{
+      border: 1px solid rgba(231,238,252,.14);
+      background: linear-gradient(180deg, rgba(15,26,46,.85), rgba(15,26,46,.55));
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 14px;
+      overflow:hidden;
+      position: relative;
+      margin: 12px 0 16px;
+    }
+    .featured::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(700px 220px at 10% 0%, rgba(124,92,255,.22), transparent 60%),
+                  radial-gradient(600px 220px at 90% 20%, rgba(34,211,238,.16), transparent 60%);
+      pointer-events:none;
+    }
+    .featured > * { position:relative; }
+    @media (max-width: 900px){ .featured{ grid-template-columns: 1fr; } }
+
+    .featured .shot{
+      border-radius: 16px;
+      border: 1px solid rgba(231,238,252,.12);
+      background: rgba(231,238,252,.03);
+      overflow:hidden;
+      height: 260px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 12px;
+    }
+    .featured .shot img{
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+    }
+
+    /* modal */
+    .modal{
+      position: fixed;
+      inset: 0;
+      display:none;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+      z-index: 999;
+    }
+    .modal.open{ display:flex; }
+    .modal-backdrop{
+      position:absolute; inset:0;
+      background: rgba(0,0,0,.6);
+      backdrop-filter: blur(8px);
+    }
+    .modal-panel{
+      position: relative;
+      width: min(900px, 100%);
+      border-radius: 18px;
+      border: 1px solid rgba(231,238,252,.14);
+      background: rgba(15,26,46,.92);
+      box-shadow: 0 24px 80px rgba(0,0,0,.5);
+      overflow: hidden;
+    }
+    .modal-head{
+      display:flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 18px 18px 0;
+    }
+    .modal-head h3{ margin: 0; font-size: 18px; }
+    .modal-close{
+      border: 1px solid rgba(231,238,252,.14);
+      background: rgba(231,238,252,.04);
+      color: var(--text);
+      font-weight: 900;
+      padding: 8px 10px;
+      border-radius: 12px;
+      cursor:pointer;
+    }
+    .modal-body{
+      padding: 14px 18px 18px;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 14px;
+    }
+    @media (max-width: 860px){
+      .modal-body{ grid-template-columns: 1fr; }
+    }
+
+    /* Modal shows full screenshot (contain) */
+    .modal-shot{
+      border: 1px solid rgba(231,238,252,.12);
+      border-radius: 14px;
+      overflow:hidden;
+      height: 360px;
+      background: rgba(231,238,252,.03);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 12px;
+    }
+    .modal-shot img{
+      width:100%;
+      height:100%;
+      object-fit: contain;
+      display:block;
+      border-radius: 12px;
+    }
+    .modal-desc{ color: var(--muted); margin: 8px 0 12px; }
+    .modal-list{ margin: 0; padding-left: 18px; color: rgba(231,238,252,.85); }
+    .modal-actions{ display:flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+
+    /* footer */
+    footer{
+      padding: 34px 0 46px;
+      border-top: 1px solid rgba(231,238,252,.08);
+      color: var(--muted);
+      font-size: 14px;
     }
   </style>
 </head>
+
 <body>
-
-  <h1>Samuel Yang</h1>
-  <p>Computing Science student at Simon Fraser University with experience in software development, data-driven applications, and academic projects.</p>
-
-  <h2>Projects</h2>
-
-  <div class="project">
-    <strong>Android Grocery Companion App</strong>
-    <p>Community-driven Android app for grocery price tracking, shopping lists, and barcode scanning.</p>
-    <a href="https://github.com/samyang0819/cmpt362-grocery-companion">View on GitHub</a>
+  <div class="nav">
+    <div class="nav-inner">
+      <div class="brand"><span class="dot"></span> Samuel Yang</div>
+      <div class="nav-links">
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+      </div>
+    </div>
   </div>
 
-  <div class="project">
-    <strong>Full-Stack Note-Taking Application</strong>
-    <p>Full-stack web app supporting create, edit, and delete operations with persistent storage.</p>
-    <a href="https://github.com/samyang0819/note-taking-app">View on GitHub</a>
+  <div class="wrap">
+    <div class="hero">
+      <div class="hero-card">
+        <p class="kicker">Computing Science • SFU</p>
+        <h1>Building practical software with clean, reliable execution.</h1>
+        <p class="subtitle">
+          I’m Samuel Yang, a Computing Science student at Simon Fraser University. I build data-driven apps and
+          product-focused projects, and I care about clarity, maintainability, and shipping.
+        </p>
+
+        <div class="pill-row">
+          <span class="pill">Full-Stack</span>
+          <span class="pill">Android</span>
+          <span class="pill">Data-Driven Apps</span>
+          <span class="pill">Testing & Clean Code</span>
+        </div>
+
+        <div class="cta-row">
+          <a class="btn primary" href="#projects">View Projects</a>
+          <a class="btn" href="assets/resume.pdf" target="_blank" rel="noreferrer">Resume (PDF)</a>
+          <button class="btn" id="copyEmail" type="button">Copy Email</button>
+          <a class="btn" href="https://github.com/samyang0819" target="_blank" rel="noreferrer">GitHub</a>
+          <a class="btn" href="https://www.linkedin.com/in/samuel-yang-dev/" target="_blank" rel="noreferrer">LinkedIn</a>
+        </div>
+      </div>
+
+      <div class="side">
+        <div class="mini">
+          <h3>Focus</h3>
+          <p>Software development with strong fundamentals and real-world project execution.</p>
+          <div class="rows">
+            <div class="row">Areas <span>Full-Stack • Android • Data</span></div>
+            <div class="row">Strength <span>Problem-Solving</span></div>
+            <div class="row">Location <span>Coquitlam, BC</span></div>
+          </div>
+        </div>
+
+        <div class="mini">
+          <h3>Quick</h3>
+          <p class="muted">Tip: pin 4–6 best repos on GitHub for consistency.</p>
+          <div class="rows">
+            <div class="row">Best Signal <span>Shipped projects</span></div>
+            <div class="row">Clarity <span>Strong READMEs</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section id="projects">
+      <div class="section-title">
+        <h2>Projects</h2>
+        <p>Click a project to view screenshots and details.</p>
+      </div>
+
+      <!-- Featured Project -->
+      <div class="featured">
+        <div>
+          <h3 style="margin:0 0 8px;">Featured: Android Grocery Companion App</h3>
+          <p class="muted" style="margin:0 0 12px;">
+            A community-driven Android app for price tracking, shopping lists, and barcode/receipt scanning.
+          </p>
+          <ul class="modal-list" style="margin:0; padding-left:18px;">
+            <li>Built core user flows (search, list management, item lookup).</li>
+            <li>Integrated scanning to reduce manual entry and improve usability.</li>
+            <li>Collaborated in a team workflow and maintained clean project structure.</li>
+          </ul>
+          <div class="card-actions" style="margin-top:12px;">
+            <a class="btn primary" href="https://github.com/samyang0819/cmpt362-grocery-companion" target="_blank" rel="noreferrer">View Repo</a>
+          </div>
+        </div>
+        <div class="shot">
+          <img src="assets/grocery.png" alt="Android Grocery Companion App screenshot">
+        </div>
+      </div>
+
+      <div class="filters" id="filters">
+        <button class="filter active" data-filter="all" type="button">All</button>
+        <button class="filter" data-filter="android" type="button">Android</button>
+        <button class="filter" data-filter="fullstack" type="button">Full-Stack</button>
+        <button class="filter" data-filter="data" type="button">Data</button>
+      </div>
+
+      <div class="grid" id="projectGrid">
+
+        <!-- Project 1 -->
+        <div class="card clickable" data-tags="android,data"
+          data-title="Android Grocery Companion App"
+          data-badge="Team Project"
+          data-img="assets/grocery.png"
+          data-desc="Community-driven Android app for grocery price tracking, shopping lists, and barcode/receipt scanning."
+          data-bullets="Owned key flows like item lookup and list management|Integrated scanning to reduce manual entry|Worked in a team workflow and maintained clean structure"
+          data-repo="https://github.com/samyang0819/cmpt362-grocery-companion">
+
+          <div class="thumb phone">
+            <img src="assets/grocery.png" alt="Android Grocery Companion App screenshot">
+          </div>
+
+          <div class="card-top">
+            <h3>Android Grocery Companion App</h3>
+            <span class="badge">Team Project</span>
+          </div>
+          <p>Grocery price tracking + lists + barcode/receipt scanning, built with a maintainable architecture.</p>
+          <div class="meta">
+            <span class="chip">Android</span>
+            <span class="chip">Data</span>
+            <span class="chip">Scanning</span>
+          </div>
+          <div class="card-actions">
+            <a class="btn" href="https://github.com/samyang0819/cmpt362-grocery-companion" target="_blank" rel="noreferrer">Repo</a>
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="card clickable" data-tags="fullstack,data"
+          data-title="Full-Stack Note-Taking Application"
+          data-badge="Solo Project"
+          data-img="assets/notes.png"
+          data-desc="Full-stack web app supporting create, edit, and delete operations with persistent storage."
+          data-bullets="Built full CRUD notes workflow with persistence|Structured for maintainability with clean separation|Focused on clear UX and reliable behavior"
+          data-repo="https://github.com/samyang0819/note-taking-app">
+
+          <div class="thumb">
+            <img src="assets/notes.png" alt="Full-Stack Note-Taking Application screenshot">
+          </div>
+
+          <div class="card-top">
+            <h3>Full-Stack Note-Taking Application</h3>
+            <span class="badge">Solo Project</span>
+          </div>
+          <p>CRUD note app with persistent storage and maintainable structure.</p>
+          <div class="meta">
+            <span class="chip">Full-Stack</span>
+            <span class="chip">REST</span>
+            <span class="chip">Maintainable</span>
+          </div>
+          <div class="card-actions">
+            <a class="btn" href="https://github.com/samyang0819/note-taking-app" target="_blank" rel="noreferrer">Repo</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="section-title">
+        <h2>Skills</h2>
+        <p>Core technologies I use across projects.</p>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="card-top">
+            <h3>Languages</h3>
+            <span class="badge">Core</span>
+          </div>
+          <p>Java, Python, C/C++, JavaScript, SQL</p>
+          <div class="meta">
+            <span class="chip">OOP</span>
+            <span class="chip">Data Structures</span>
+            <span class="chip">Debugging</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-top">
+            <h3>Development</h3>
+            <span class="badge">Practical</span>
+          </div>
+          <p>Android development, full-stack development, API integration, testing, and clean architecture.</p>
+          <div class="meta">
+            <span class="chip">Testing</span>
+            <span class="chip">APIs</span>
+            <span class="chip">Maintainability</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="muted">
+        © <span id="y"></span> Samuel Yang •
+        <a href="https://github.com/samyang0819" target="_blank" rel="noreferrer">GitHub</a> •
+        <a href="https://www.linkedin.com/in/samuel-yang-dev/" target="_blank" rel="noreferrer">LinkedIn</a>
+      </div>
+    </footer>
   </div>
 
-  <h2>Skills</h2>
-  <p>Java, Python, C/C++, JavaScript, SQL, Android Development, Software Engineering</p>
+  <!-- Modal -->
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-head">
+        <div>
+          <h3 id="modalTitle">Project</h3>
+          <div class="muted" id="modalBadge" style="margin-top:4px;"></div>
+        </div>
+        <button class="modal-close" id="modalClose" type="button">Close</button>
+      </div>
 
-  <h2>Links</h2>
-  <p>
-    <a href="https://github.com/samyang0819">GitHub</a> |
-    <a href="https://www.linkedin.com/in/samuel-yang-752450284">LinkedIn</a>
-  </p>
+      <div class="modal-body">
+        <div class="modal-shot">
+          <img id="modalImg" src="" alt="Project screenshot">
+        </div>
+        <div>
+          <p class="modal-desc" id="modalDesc"></p>
+          <ul class="modal-list" id="modalList"></ul>
+          <div class="modal-actions">
+            <a class="btn primary" id="modalRepo" href="#" target="_blank" rel="noreferrer">View Repo</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <script>
+    // Year
+    document.getElementById("y").textContent = new Date().getFullYear();
+
+    // Copy email
+    document.getElementById("copyEmail")?.addEventListener("click", async () => {
+      const email = "goku67787@gmail.com";
+      try{
+        await navigator.clipboard.writeText(email);
+        alert("Email copied: " + email);
+      }catch{
+        prompt("Copy this email:", email);
+      }
+    });
+
+    // Filters
+    const filters = document.getElementById("filters");
+    const cards = Array.from(document.querySelectorAll(".card.clickable"));
+
+    filters.addEventListener("click", (e) => {
+      const btn = e.target.closest(".filter");
+      if (!btn) return;
+
+      document.querySelectorAll(".filter").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      const f = btn.dataset.filter;
+      cards.forEach(card => {
+        const tags = (card.dataset.tags || "").split(",");
+        const show = (f === "all") || tags.includes(f);
+        card.style.display = show ? "" : "none";
+      });
+    });
+
+    // Modal
+    const modal = document.getElementById("modal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalBadge = document.getElementById("modalBadge");
+    const modalImg = document.getElementById("modalImg");
+    const modalDesc = document.getElementById("modalDesc");
+    const modalList = document.getElementById("modalList");
+    const modalRepo = document.getElementById("modalRepo");
+    const closeBtn = document.getElementById("modalClose");
+    const backdrop = document.getElementById("modalBackdrop");
+
+    function openModal(card){
+      modalTitle.textContent = card.dataset.title || "Project";
+      modalBadge.textContent = card.dataset.badge || "";
+      modalDesc.textContent = card.dataset.desc || "";
+      modalImg.src = card.dataset.img || "";
+      modalRepo.href = card.dataset.repo || "#";
+
+      modalList.innerHTML = "";
+      const bullets = (card.dataset.bullets || "").split("|").filter(Boolean);
+      bullets.forEach(b => {
+        const li = document.createElement("li");
+        li.textContent = b;
+        modalList.appendChild(li);
+      });
+
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal(){
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    cards.forEach(card => {
+      card.addEventListener("click", (e) => {
+        if (e.target.closest("a")) return; // allow repo button
+        openModal(card);
+      });
+    });
+
+    closeBtn.addEventListener("click", closeModal);
+    backdrop.addEventListener("click", closeModal);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
+    });
+  </script>
 </body>
 </html>
